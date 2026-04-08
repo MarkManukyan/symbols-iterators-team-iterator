@@ -1,21 +1,29 @@
 class Team {
   constructor() {
-    this.members = [];
+    this.characters = [];
   }
 
   add(character) {
-    this.members.push(character);
+    this.characters.push(character);
   }
 
-  addAll(...characters) {
-    this.members.push(...characters);
-  }
+  [Symbol.iterator]() {
+    let index = 0;
+    const characters = this.characters;
 
-  * [Symbol.iterator]() {
-    for (const member of this.members) {
-      yield member;
-    }
+    return {
+      next() {
+        if (index < characters.length) {
+          return {
+            value: characters[index++],
+            done: false
+          };
+        } else {
+          return {
+            done: true
+          };
+        }
+      }
+    };
   }
 }
-
-export default Team;
